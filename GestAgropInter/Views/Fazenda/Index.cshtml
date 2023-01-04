@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GestAgropInter.Models.Fazenda>
+@{
+    ViewData["Title"] = "Fazenda";
+}
+
+
+<div class="content-wrapper" style="min-height: 1302.4px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Fazenda</h1>
+          </div>
+          <div class="col-sm-12">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Fazenda</a></li>
+              <li class="breadcrumb-item active">Listagem</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <a asp-action="Create" class="btn btn-block btn-success btn-xs" >Adicionar fazenda</a>
+                    @*<a asp-action="Create">Criar Novo Funcionario</a>*@
+                  </div>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0" ">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nome da Fazenda</th>
+                      <th>Endereço da Fazenda</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      @foreach (var item in Model) {
+                        <tr>
+                           <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                           <td>@Html.DisplayFor(modelItem => item.NomeFazenda)</td>
+                           <td>@Html.DisplayFor(modelItem => item.Endereco)</td>
+                           <td>
+                            @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
+                            @Html.ActionLink("Detalhes", "Details", new { id=item.Id }) |
+                            @Html.ActionLink("Deletar", "Delete", new { id=item.Id })
+                            </td>
+                        </tr>
+                      }                    
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->

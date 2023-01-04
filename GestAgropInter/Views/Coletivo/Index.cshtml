@@ -1,0 +1,116 @@
+﻿@model GestAgropInter.Models.Animal
+@{
+    ViewData["Title"] = "Coletivo";
+}
+
+<div class="content-wrapper" style="min-height: 1302.4px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Cadastro coletivo</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Cadastro Coletivo</a></li>
+              <li class="breadcrumb-item active">Cadastrar</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+           ​<div class="col-md-12">
+               <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Cadastrar Coletivo</h3>
+                        </div>
+                        <div class="card-body form-group">
+                            <input id="Tag" class="form-control form-control-lg" onkeyup="somenteNumeros(this);" type="text" placeholder="Identificação (Tag)">
+                            <span class="text-danger"></span>
+                        <br>
+                        <div class="form-group">
+                            <label id= "lblAux" hidden></label>
+                             <select id="lista-conteudos" data-id="0" class="form-control form-control-lg">
+                                <option value="1">Fazenda 1</option> 
+                                <option value="2">Fazenda 2</option> 
+                             </select>
+                        </div>
+                        <div class="input-group input-group-sm" style="width: 300px;">
+
+                        <button class="btn btn-block btn-success btn-xs" onclick="adicionaLinha('tbl')" >Adicionar</button>                        
+                        </div>
+                    </div>                
+                </div>
+
+
+          </div>
+            <!-- /.card -->
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-12">
+               ​<div class="col-md-12">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Lista para inclusão</h3>
+                        </div>
+                  <table  id="tbl" class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>                      
+                      <th>Tag do animal</th>
+                      <th>Nome da Fazenda</th>                      
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+           
+                  </tbody>
+                </table>
+                    </div>                
+                </div>
+          </div>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script>
+        var select = document.getElementById('lista-conteudos')
+
+        select.addEventListener('change', function(){
+               document.getElementById('lblAux').value= select.value;
+        });
+
+        //Funcao adiciona uma nova linha na tabela
+        function adicionaLinha(idTabela) {
+
+            var tag = document.getElementById('Tag');
+
+            var select = document.getElementById('lista-conteudos');
+
+                console.log(select);
+                var linha = "<tr>";
+                    linha += '<td>' + tag.value + '</td>';
+                    linha += '<td> ' +  select+ '</td>';                    
+                    linha += '</tr>';
+                   
+                    $("#tbl tbody").append(linha);
+
+        }
+                    
+    </script>    
+
