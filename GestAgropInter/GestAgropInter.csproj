@@ -1623,4 +1623,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Coletivo\" />
+  </ItemGroup>
+
 </Project>

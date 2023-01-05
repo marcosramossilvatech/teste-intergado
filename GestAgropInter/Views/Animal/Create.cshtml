@@ -1,6 +1,6 @@
 ﻿@model GestAgropInter.Models.Animal
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "CreateCadastro";
 }
 
 <div class="content-wrapper" style="min-height: 1302.4px;">
@@ -34,8 +34,7 @@
                 </div>
               </div>
             ​<div class="col-md-12">
-
-            <form asp-controller="Animal" asp-action="Create">
+            <form asp-controller="Animal" asp-action="CreateCadastro">
                 <div class="card card-success">
                     <div class="card-header">
                         <h3 class="card-title">Cadastrar</h3>
@@ -45,12 +44,11 @@
                             <span asp-validation-for="Tag" class="text-danger"></span>
                         <br>
                         <div class="form-group">
-                            <select asp-for="NomeFaz" class="form-control form-control-lg">
-
-                                @foreach (var item in Model.FazendaList)
-                                {
-                                       <option value="@item.NomeFazenda">@item.NomeFazenda</option>
-                                }
+                            <select asp-for="NomeFaz" class="form-control form-control-lg">      
+                                            @foreach (var item in Model.FazendaList)
+                                            {
+                                                <option value="@item.NomeFazenda">@item.NomeFazenda</option>
+                                            }
                             </select>
                         </div>
                         <div class="input-group input-group-sm" style="width: 300px;">

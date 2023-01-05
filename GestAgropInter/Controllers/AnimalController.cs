@@ -42,6 +42,7 @@ namespace GestAgropInter.Controllers
             return View(animal);
         }
 
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -53,21 +54,24 @@ namespace GestAgropInter.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind] Animal animal)
+        public IActionResult CreateCadastro([Bind] Animal animal)
         {
+        
 
             if (ModelState.IsValid)
             {
+                if(_animal.GetAnimal(animal.Tag)!= null)
+                    return RedirectToAction("Index");
                 if (animal.Id != null)
                 {
                     animal.DataAlteracao = DateTime.Now;
                     _animal.UpdateAnimal(animal);
-                }                   
+                }
                 else
-                    _animal.AddAnimal(animal);              
+                    _animal.AddAnimal(animal);
                 return RedirectToAction("Index");
             }
-            return View(animal);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -133,7 +137,6 @@ namespace GestAgropInter.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
         [HttpGet]
         public IActionResult VerificaTag(string tag)
         {
@@ -148,9 +151,10 @@ namespace GestAgropInter.Controllers
             if (animal == null)
                 mensagem = "not";
             return Ok(new
-            {                
+            {
                 mensagem = mensagem
             });
         }
+
     }
 }
