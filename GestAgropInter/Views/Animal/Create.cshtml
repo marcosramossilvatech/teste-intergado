@@ -44,10 +44,10 @@
                             <span asp-validation-for="Tag" class="text-danger"></span>
                         <br>
                         <div class="form-group">
-                            <select asp-for="NomeFaz" class="form-control form-control-lg">      
+                            <select asp-for="FazendaID" class="form-control form-control-lg">      
                                             @foreach (var item in Model.FazendaList)
                                             {
-                                                <option value="@item.NomeFazenda">@item.NomeFazenda</option>
+                                                    <option value="@item.Id">@item.NomeFazenda</option>
                                             }
                             </select>
                         </div>

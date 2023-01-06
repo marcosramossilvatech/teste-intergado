@@ -51,7 +51,7 @@
                         <tr>
                            <td>@Html.DisplayFor(modelItem => item.Id)</td>
                            <td>@Html.DisplayFor(modelItem => item.Tag)</td>
-                           <td>@Html.DisplayFor(modelItem => item.NomeFaz)</td>
+                           <td>@Html.DisplayFor(modelItem => item.Fazenda.NomeFazenda)</td>
                             <td>@Html.DisplayFor(modelItem => item.DataInclusao)</td>
                            <td>
                             @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |

@@ -17,7 +17,11 @@ function verificaTagUnica(num) {
             contentType: 'application/json',
             success: function (result) {
                 if (result.mensagem!== "not")
-                  alert("Já existe animal cadastrado com essa tag");
+                    swal({
+                        title: "Erro",
+                        text: "Já existe animal cadastrado com essa Tag",
+                        icon: "warning"
+                    });
             }
         });
     }

@@ -44,7 +44,7 @@
                 <div class="alert alert-warning alert-dismissible">                 
                   <h4><i class="icon fas fa-exclamation-triangle"></i> Deseja deletar o cadastro dessa animal?</h4>
                   <h5>Nome: @Html.DisplayFor(model => model.Tag)</h5>
-                  <h5>Endereço: @Html.DisplayFor(model => model.NomeFaz)</h5>
+                  <h5>Endereço: @Html.DisplayFor(model => model.Fazenda.NomeFazenda)</h5>
                 </div>
                 <form asp-action="Delete">
                     <div class="input-group input-group-sm" style="width: 300px;">

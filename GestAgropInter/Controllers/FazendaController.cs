@@ -125,5 +125,16 @@ namespace GestAgropInter.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public IActionResult GetFazenda()
+        {
+
+            var fazenda = _fazenda.GetAllFazenda();
+            return Ok(new
+            {
+                fazenda = fazenda
+            });
+        }
     }
 }

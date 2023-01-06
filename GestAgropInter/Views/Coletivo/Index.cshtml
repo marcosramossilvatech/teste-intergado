@@ -4,7 +4,6 @@
 }
 
 <div class="content-wrapper" style="min-height: 1302.4px;">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -19,40 +18,41 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
+    </section>   
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-           ​<div class="col-md-12">
-               <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Cadastrar Coletivo</h3>
+             <div class="col-12">
+               ​<div class="col-md-12">
+                   <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Cadastrar Coletivo</h3>
                         </div>
-                        <div class="card-body form-group">
-                            <input id="Tag" class="form-control form-control-lg" onkeyup="somenteNumeros(this);" type="text" placeholder="Identificação (Tag)">
-                            <span class="text-danger"></span>
-                        <br>
-                        <div class="form-group">
-                            <label id= "lblAux" hidden></label>
-                             <select id="lista-conteudos" data-id="0" class="form-control form-control-lg">
-                                <option value="1">Fazenda 1</option> 
-                                <option value="2">Fazenda 2</option> 
-                             </select>
-                        </div>
-                        <div class="input-group input-group-sm" style="width: 300px;">
+                            <div class="card-body form-group">
+                                <input id="Tag" class="form-control form-control-lg" onkeyup="somenteNumeros(this);" type="text" placeholder="Identificação (Tag)">
+                                <span class="text-danger"></span>
+                                <br>
+                                <div class="form-group">
+                                    <label id= "lblAux" hidden></label>
+                                    <select name="lista" id="lista" class="form-control form-control-lg">      
+                                                @foreach (var item in ViewBag.Fazenda)
+                                                {
+                                                    <option value="@item.Id">@item.NomeFazenda</option>
+                                                }
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm" style="width: 300px;">
 
-                        <button class="btn btn-block btn-success btn-xs" onclick="adicionaLinha('tbl')" >Adicionar</button>                        
-                        </div>
-                    </div>                
-                </div>
-
-
-          </div>
+                                     <button class="btn btn-block btn-success btn-xs" id="Add">Adicionar</button>                        
+                                </div>
+                                <div class="input-group input-group-sm" style="width: 300px;">
+                                     <button class="btn btn-block btn-success btn-xs" id="Salvar">Salva</button>                        
+                                </div>
+                            </div>                
+                    </div>
+              </div>
             <!-- /.card -->
-          </div>
+            </div>
         </div>
          <div class="row">
           <div class="col-12">
@@ -65,52 +65,64 @@
                   <thead>
                     <tr>                      
                       <th>Tag do animal</th>
-                      <th>Nome da Fazenda</th>                      
+                      <th>Nome da Fazenda</th>   
+                      <th style="display:none">Id da Fazenda</th>      
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-           
+
                   </tbody>
                 </table>
                     </div>                
                 </div>
           </div>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+          </div>                 
+       </div>
+      
     </section>
-    <!-- /.content -->
-  </div>
+</div>
 @section Scripts {
-    @{
+    @{       
+
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     }
 
     <script>
-        var select = document.getElementById('lista-conteudos')
 
-        select.addEventListener('change', function(){
-               document.getElementById('lblAux').value= select.value;
-        });
-
-        //Funcao adiciona uma nova linha na tabela
-        function adicionaLinha(idTabela) {
-
+        $("#Add").on("click", function () {
             var tag = document.getElementById('Tag');
 
-            var select = document.getElementById('lista-conteudos');
+            if ($("#Tag").val().length < 15) {
+                swal({
+                title: "Erro!",
+                text: "Tag invalida!",
+                icon: "warning"
+                });
+                return false;
+            }
+            var select = document.getElementById('lista');
+            var option = select.children[select.selectedIndex];
+            var texto = option.textContent;            
+            var linha = "<tr>";
+            linha += '<td>' + tag.value + '</td>';
+            linha += '<td> ' +  texto+ '</td>';         
+            linha += '<td style="display:none"> ' +  option.value+ '</td>';  
+            linha += '</tr>';
 
-                console.log(select);
-                var linha = "<tr>";
-                    linha += '<td>' + tag.value + '</td>';
-                    linha += '<td> ' +  select+ '</td>';                    
-                    linha += '</tr>';
-                   
-                    $("#tbl tbody").append(linha);
+            $("#tbl tbody").append(linha);
 
-        }
-                    
+            tag.value ="";
+
+        });
+
+        $("#Salvar").on("click", function () {
+            var table = $('#tbl').tableToJSON();
+            console.log("aki");
+            //alert(JSON.stringify(table));   
+
+        });
+
     </script>    
 

@@ -15,8 +15,10 @@ namespace GestAgropInter.Models
         [MaxLength(15)]
         public string Tag { get; set; }
 
-        [Required(ErrorMessage = "Fazenda é obrigatorio")]        
-        public string NomeFaz { get; set; }
+        [Required(ErrorMessage = "Fazenda é obrigatorio")]
+        [ForeignKey("Fazenda")]
+        public int FazendaID { get; set; }            
+        public Fazenda? Fazenda { get; set; }
 
         public virtual IEnumerable<Fazenda>? FazendaList { get; set; }
         public Animal()
@@ -27,13 +29,12 @@ namespace GestAgropInter.Models
             ValidateDomain(tag);
         }
 
-        public Animal(int id, string tag, string nomeFaz)
+        public Animal(int id, string tag, Fazenda fazenda)
         {
             DomainExceptionValidation.When(id < 0, "O Id é invalido.");
             Id = id;
-            ValidateDomain(tag);
-            ValidateDomain(nomeFaz);
-            NomeFaz = nomeFaz;
+            ValidateDomain(tag);            
+            Fazenda = fazenda;
         }
 
         public void Update(string tag)

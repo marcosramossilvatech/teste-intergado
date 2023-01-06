@@ -9,11 +9,17 @@ namespace GestAgropInter.Controllers
     {
         private readonly IAnimalRepository _animal;
         private readonly IFazendaRepository _fazenda;
+        Animal ani = new Animal();
+
+        public ColetivoController(IAnimalRepository animal, IFazendaRepository fazenda)
+        {
+            _animal = animal;
+            _fazenda = fazenda;
+        }
 
         public IActionResult Index()
         {
-
-
+            ViewBag.Fazenda = _fazenda.GetAllFazenda();
             return View();
         }
                 

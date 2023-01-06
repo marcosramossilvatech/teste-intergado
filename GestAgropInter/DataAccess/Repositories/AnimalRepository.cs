@@ -6,48 +6,67 @@ namespace GestAgropInter.DataAccess.Repositories
 {
     public class AnimalRepository : IAnimalRepository
     {
-        private AppDbContext _animalContext;
+        private AppDbContext _context;
         public AnimalRepository(AppDbContext animalContext)
         {
-            _animalContext = animalContext;
+            _context = animalContext;
         }
         public void AddAnimal(Animal animal)
         {
-            _animalContext.Add(animal);
-            _animalContext.SaveChanges();
+            _context.Add(animal);
+            _context.SaveChanges();
         }
 
         public void DeleteAnimal(int? id)
         {
-            var faze = _animalContext.Animal.Find(id);
+            var faze = _context.Animal.Find(id);
             if (faze != null)
             {
-                _animalContext.Remove(faze);
-                _animalContext.SaveChanges();
+                _context.Remove(faze);
+                _context.SaveChanges();
             }
         }
 
         public IEnumerable<Animal> GetAllAnimal()
         {
-            var retorno = _animalContext.Animal.ToList();
+
+            var retorno = (from a in _context.Animal
+                             from f in _context.Fazenda.Where(x=>x.Id == a.FazendaID).DefaultIfEmpty()
+                             select new Animal
+                             {
+                                 Id = a.Id,
+                                 Tag = a.Tag,
+                                 FazendaID = a.FazendaID,
+                                 Fazenda = f
+                             }).ToList();
             return retorno;
         }
 
         public Animal GetAnimal(int? id)
         {
-            var animal = _animalContext.Animal.Find(id);
+            var animal = (from a in _context.Animal
+                             from f in _context.Fazenda.Where(x => x.Id == a.FazendaID).DefaultIfEmpty()
+                             where a.Id== id
+                             select new Animal
+                             {
+                                 Id = a.Id,
+                                 Tag = a.Tag,
+                                 FazendaID = a.FazendaID,
+                                 Fazenda = f
+                             }).FirstOrDefault();
+
             return animal;
         }
 
         public Animal GetAnimal(string? tag)
         {
-            var animal = _animalContext.Animal.FirstOrDefault(x=> x.Tag == tag);
+            var animal = _context.Animal.FirstOrDefault(x=> x.Tag == tag);
             return animal;
         }
         public void UpdateAnimal(Animal animal)
         {
-            _animalContext.Update(animal);
-            _animalContext.SaveChanges();
+            _context.Update(animal);
+            _context.SaveChanges();
         }
     }
 }
