@@ -44,13 +44,21 @@
                             <span asp-validation-for="Tag" class="text-danger"></span>
                         <br>
                         <div class="form-group">
-                            <select asp-for="FazendaID" class="form-control form-control-lg">      
-                                            @foreach (var item in Model.FazendaList)
-                                            {
-                                                    <option value="@item.Id">@item.NomeFazenda</option>
-                                            }
+                            <select asp-for="Sexo" class="form-control form-control-lg">   
+                               <option value="Femino">Femino</option>   
+                               <option value="Masculino">Masculino</option>  
                             </select>
                         </div>
+                        <br/>
+                        <div class="form-group">
+                            <select asp-for="FazendaID" class="form-control form-control-lg">      
+                                @foreach (var item in Model.FazendaList)
+                                {
+                                        <option value="@item.Id">@item.NomeFazenda</option>
+                                }
+                            </select>
+                        </div>
+                       
                         <div class="input-group input-group-sm" style="width: 300px;">
 
                         <button type="submit" class="btn btn-block btn-success btn-xs" >Salvar</button>                        

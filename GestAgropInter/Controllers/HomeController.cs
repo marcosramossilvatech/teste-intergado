@@ -1,21 +1,24 @@
 ﻿using GestAgropInter.Models;
+using GestAgropInter.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace GestAgropInter.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHomeRepository _context;
+        Animal ani = new Animal();
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHomeRepository context)
         {
-            _logger = logger;
+            _context = context;
         }
-
         public IActionResult Index()
         {
-            return View();
+            var home = _context.GetDados();
+            return View(home);
         }
 
         public IActionResult Privacy()

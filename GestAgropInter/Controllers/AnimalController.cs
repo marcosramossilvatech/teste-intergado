@@ -156,5 +156,31 @@ namespace GestAgropInter.Controllers
             });
         }
 
+        [HttpPost]
+        public IActionResult SalvarListaAnimais([FromBody] List<Animal> animais)
+        {
+            foreach (var animal in animais)
+            {
+                
+                if (animal.Tag == "" || animal.Tag.Length < 15)
+                    return Ok(new { erro = "true", message = "A tag informada é invalida!"});
+                Animal exisAnimal = _animal.GetAnimal(animal.Tag);
+                if (exisAnimal != null)
+                    return Ok(new { erro = "true", message = "Já existe uma animal cadastrado com esse tag" });
+            }
+            try
+            {
+                _animal.AddAnimais(animais);
+                return Ok(new { erro = "false", message = "Cadastro realizado com sucesso!!!" });
+            }
+            catch (Exception)
+            {
+                return BadRequest("Aconteceu algum erro!");
+                throw;
+            }
+            
+           
+        }
+
     }
 }

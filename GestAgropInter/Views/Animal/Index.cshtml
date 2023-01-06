@@ -41,6 +41,7 @@
                     <tr>
                       <th>Id</th>
                       <th>Tag do animal</th>
+                      <th> Sexo </th>
                       <th>Nome da Fazenda</th>
                       <th>Data nascimento/Entrada</th>
                       <th></th>
@@ -51,8 +52,9 @@
                         <tr>
                            <td>@Html.DisplayFor(modelItem => item.Id)</td>
                            <td>@Html.DisplayFor(modelItem => item.Tag)</td>
+                           <td>@Html.DisplayFor(modelItem => item.Sexo)</td>
                            <td>@Html.DisplayFor(modelItem => item.Fazenda.NomeFazenda)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DataInclusao)</td>
+                           <td>@Html.DisplayFor(modelItem => item.DataInclusao)</td>
                            <td>
                             @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
                             @Html.ActionLink("Detalhes", "Details", new { id=item.Id }) |

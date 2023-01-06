@@ -1,5 +1,6 @@
 using GestAgropInter.DataAccess;
 using GestAgropInter.DataAccess.Repositories;
+using GestAgropInter.Models;
 using GestAgropInter.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>
 
 builder.Services.AddTransient<IFazendaRepository, FazendaRepository>();
 builder.Services.AddTransient<IAnimalRepository, AnimalRepository>();
+builder.Services.AddTransient<IHomeRepository, HomeRepository>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

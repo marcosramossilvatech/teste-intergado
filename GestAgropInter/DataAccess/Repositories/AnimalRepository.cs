@@ -11,6 +11,13 @@ namespace GestAgropInter.DataAccess.Repositories
         {
             _context = animalContext;
         }
+
+        public void AddAnimais(List<Animal> animais)
+        {
+            _context.AddRange(animais);
+            _context.SaveChanges();
+        }
+
         public void AddAnimal(Animal animal)
         {
             _context.Add(animal);
@@ -36,6 +43,7 @@ namespace GestAgropInter.DataAccess.Repositories
                              {
                                  Id = a.Id,
                                  Tag = a.Tag,
+                                 Sexo = a.Sexo,
                                  FazendaID = a.FazendaID,
                                  Fazenda = f
                              }).ToList();
@@ -51,6 +59,7 @@ namespace GestAgropInter.DataAccess.Repositories
                              {
                                  Id = a.Id,
                                  Tag = a.Tag,
+                                 Sexo = a.Sexo,
                                  FazendaID = a.FazendaID,
                                  Fazenda = f
                              }).FirstOrDefault();

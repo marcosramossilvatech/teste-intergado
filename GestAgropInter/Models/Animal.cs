@@ -20,6 +20,7 @@ namespace GestAgropInter.Models
         public int FazendaID { get; set; }            
         public Fazenda? Fazenda { get; set; }
 
+        public string Sexo { get; set; }
         public virtual IEnumerable<Fazenda>? FazendaList { get; set; }
         public Animal()
         {
@@ -29,12 +30,14 @@ namespace GestAgropInter.Models
             ValidateDomain(tag);
         }
 
-        public Animal(int id, string tag, Fazenda fazenda)
+        public Animal(int id, string tag, string sexo, int idfazenda ,Fazenda fazenda)
         {
             DomainExceptionValidation.When(id < 0, "O Id é invalido.");
             Id = id;
             ValidateDomain(tag);            
             Fazenda = fazenda;
+            FazendaID = idfazenda;
+            Sexo = sexo;
         }
 
         public void Update(string tag)

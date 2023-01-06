@@ -33,6 +33,12 @@
                                 <span class="text-danger"></span>
                                 <br>
                                 <div class="form-group">
+                                    <select asp-for="Sexo" id="lstsexo" class="form-control form-control-lg">   
+                                        <option value="Femino">Femino</option>   
+                                        <option value="Masculino">Masculino</option>  
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label id= "lblAux" hidden></label>
                                     <select name="lista" id="lista" class="form-control form-control-lg">      
                                                 @foreach (var item in ViewBag.Fazenda)
@@ -41,12 +47,12 @@
                                                 }
                                     </select>
                                 </div>
-                                <div class="input-group input-group-sm" style="width: 300px;">
-
+                                <div class="input-group input-group-sm" style="width: 100px;">
                                      <button class="btn btn-block btn-success btn-xs" id="Add">Adicionar</button>                        
                                 </div>
-                                <div class="input-group input-group-sm" style="width: 300px;">
-                                     <button class="btn btn-block btn-success btn-xs" id="Salvar">Salva</button>                        
+                                <br>
+                                <div class="input-group input-group-sm" style="width: 100px;">
+                                     <button class="btn btn-block btn-success btn-xs" id="btnSalvar">Salvar</button>                        
                                 </div>
                             </div>                
                     </div>
@@ -63,8 +69,9 @@
                         </div>
                   <table  id="tbl" class="table table-head-fixed text-nowrap">
                   <thead>
-                    <tr>                      
+                    <tr class="cabecalho">                      
                       <th>Tag do animal</th>
+                      <th>Sexo do animal</th>
                       <th>Nome da Fazenda</th>   
                       <th style="display:none">Id da Fazenda</th>      
                       <th></th>
@@ -93,7 +100,7 @@
 
         $("#Add").on("click", function () {
             var tag = document.getElementById('Tag');
-
+            
             if ($("#Tag").val().length < 15) {
                 swal({
                 title: "Erro!",
@@ -102,26 +109,116 @@
                 });
                 return false;
             }
+
+            var arr = [];
+
+            $('.item').each(function() {
+                var tagAux = $(this).children()[0].innerText;                
+                    arr.push(tagAux)
+            });
+
+            if (arr.length > 0 && arr.indexOf(tag.value) > -1)
+            {
+                swal({
+                title: "Erro!",
+                text: "Já existe uma animal com essa Tag na tabela!",
+                icon: "warning"
+                });
+                tag.value ="";
+                return false;
+            }
             var select = document.getElementById('lista');
             var option = select.children[select.selectedIndex];
-            var texto = option.textContent;            
-            var linha = "<tr>";
+            var texto = option.textContent;   
+            
+                var selectSexo = document.getElementById('lstsexo');
+            var optionSexo = selectSexo.children[selectSexo.selectedIndex];
+            var textoSexo = optionSexo.textContent; 
+
+            var linha = '<tr  class="item">';
             linha += '<td>' + tag.value + '</td>';
+            linha += '<td>' + textoSexo + '</td>';
             linha += '<td> ' +  texto+ '</td>';         
             linha += '<td style="display:none"> ' +  option.value+ '</td>';  
-            linha += '</tr>';
-
+            linha += '</tr>';            
             $("#tbl tbody").append(linha);
 
             tag.value ="";
 
         });
 
-        $("#Salvar").on("click", function () {
-            var table = $('#tbl').tableToJSON();
-            console.log("aki");
-            //alert(JSON.stringify(table));   
+    function verificaTagUnicaTable(num) {
 
+        event.preventDefault();
+
+        var arr = [];
+
+        $('.item').each(function() {
+            var tagAux = $(this).children()[0].innerText;
+            var sexo = $(this).children()[1].innerText;
+            var id = $(this).children()[3].innerText;
+            arr.push({ Tag : tagAux, Sexo : sexo, FazendaID : id.trim(), Fazenda : null, FazendaList : null})
+        });
+
+
+        if (num.value.length === 15) {
+            $.ajax({
+                url: "/Animal/VerificaTag?tag=" + num.value,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function (result) {
+                    if (result.mensagem !== "not")
+                        swal({
+                            title: "Erro",
+                            text: "Já existe animal cadastrado com essa Tag",
+                            icon: "warning"
+                        });
+                }
+            });
+        }
+    }
+
+        $("#btnSalvar").click(function(){
+            var arr = [];
+         
+            $('.item').each(function() {
+                var tagAux = $(this).children()[0].innerText;
+                var sexo = $(this).children()[1].innerText;
+                var id = $(this).children()[3].innerText;
+                    arr.push({ Tag : tagAux, Sexo : sexo, FazendaID : id.trim(), Fazenda : null, FazendaList : null})
+            });        
+            if (arr.length > 0) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Animal/SalvarListaAnimais",
+                    data: JSON.stringify(arr),
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.erro=== "false"){
+                            swal({
+                                title: "Sucesso",
+                                text: result.message,
+                                    icon: "success"
+                            });
+                        }else{
+                            swal({
+                                title: "Erro!",
+                                text: result.message,
+                                icon: "warning"
+                            });
+                        }
+                    }
+                });
+            }
+            else {
+                swal({
+                    title: "Erro!",
+                    text: "Lista vazia",
+                    icon: "warning"
+                });
+            }
+           
         });
 
     </script>    

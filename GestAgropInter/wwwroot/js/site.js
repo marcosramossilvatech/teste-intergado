@@ -26,3 +26,4 @@ function verificaTagUnica(num) {
         });
     }
 }
+
