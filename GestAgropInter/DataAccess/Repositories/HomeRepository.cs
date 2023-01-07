@@ -43,7 +43,7 @@ namespace GestAgropInter.DataAccess.Repositories
 
             int? valor = key;
             if(valor> 4)
-                valor = valor % 2 == 2 ? 2 : 4;
+                valor = valor % 2 == 0 ? 2 : 4;
 
             switch (valor)
             {
