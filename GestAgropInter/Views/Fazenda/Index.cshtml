@@ -42,7 +42,7 @@
                       <th>Id</th>
                       <th>Nome da Fazenda</th>
                       <th>Endereço da Fazenda</th>
-                      <th></th>
+                      <th style="text-align:right;">Ações &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -52,25 +52,24 @@
                            <td>@Html.DisplayFor(modelItem => item.NomeFazenda)</td>
                            <td>@Html.DisplayFor(modelItem => item.Endereco)</td>
                            <td>
-                            @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
-                            @Html.ActionLink("Detalhes", "Details", new { id=item.Id }) |
-                            @Html.ActionLink("Deletar", "Delete", new { id=item.Id })
+                                <a class="btn btn-danger excluirFazenda"  href="@Url.ActionLink("Delete", "Fazenda", new { id=item.Id })" style="float:right;margin-left:10px; color: #fff"><i class="bi-x-circle"></i></a>
+                                <a class="btn btn-warning" href="@Url.ActionLink("Edit", "Fazenda", new { id=item.Id })" style="float:right;margin-left:10px; color: #fff;"><i class="bi-pencil-square"></i></a>
+                                <a class="btn btn-primary visu" href="@Url.ActionLink("Details", "Fazenda", new { id=item.Id })" style="float:right; color: #fff;"><i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
                       }                    
                   </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
+             
             </div>
-            <!-- /.card -->
+            
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-    <!-- /.content -->
+    
   </div>
-
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -79,4 +78,4 @@
       <p>Sidebar content</p>
     </div>
   </aside>
-  <!-- /.control-sidebar -->
+
