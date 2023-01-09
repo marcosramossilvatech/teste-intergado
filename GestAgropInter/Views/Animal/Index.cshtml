@@ -56,10 +56,9 @@
                            <td>@Html.DisplayFor(modelItem => item.Fazenda.NomeFazenda)</td>
                            <td>@Html.DisplayFor(modelItem => item.DataInclusao)</td>
                            <td>
-                               @*href="@Url.ActionLink("Delete", "Animal", new { id=item.Id })" *@
-                                <a class="btn btn-danger excluir"  id="excluirAnimal" data-id="@item.Id" style="float:right;margin-left:10px; color: #fff"><i class="bi-x-circle"></i></a>
+                                <a class="btn btn-danger excluir"  href="@Url.ActionLink("Delete", "Animal", new { id=item.Id })" style="float:right;margin-left:10px; color: #fff"><i class="bi-x-circle"></i></a>
                                 <a class="btn btn-warning" href="@Url.ActionLink("Edit", "Animal", new { id=item.Id })" style="float:right;margin-left:10px; color: #fff;"><i class="bi-pencil-square"></i></a>
-                                <a class="btn btn-primary visu" href="@Url.ActionLink("Details", "Fazenda", new { id=item.Id })" style="float:right; color: #fff;"><i class="bi bi-eye"></i></a>
+                                <a class="btn btn-primary visu" href="@Url.ActionLink("Details", "Animal", new { id=item.Id })" style="float:right; color: #fff;"><i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
                       }                    
