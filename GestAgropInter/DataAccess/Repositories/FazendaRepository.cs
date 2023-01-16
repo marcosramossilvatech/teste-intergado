@@ -39,6 +39,11 @@ namespace GestAgropInter.DataAccess.Repositories
             return fazenda;
         }
 
+        public Fazenda GetFazenda(string nome)
+        {
+            var fazenda = _fazendaContext.Fazenda.FirstOrDefault(x=> x.NomeFazenda.ToUpper().Equals(nome.ToUpper()));
+            return fazenda;
+        }
         public void UpdateFazenda(Fazenda fazenda)
         {
             _fazendaContext.Update(fazenda);

@@ -22,24 +22,24 @@ namespace GestAgropInter.Models
         public Fazenda()
         {
         }
-        public Fazenda(string nomeFazenda)
+        public Fazenda(string nomeFazenda, string endereco)
         {
-            ValidateDomain(nomeFazenda);
+            ValidateDomain(nomeFazenda,  endereco);
         }
 
-        public Fazenda(int id, string nomeFazenda)
+        public Fazenda(int id, string nomeFazenda, string endereco)
         {
             DomainExceptionValidation.When(id < 0, "O Id é invalido.");
             Id = id;
-            ValidateDomain(nomeFazenda);
+            ValidateDomain(nomeFazenda, endereco);
         }
 
-        public void Update(string nomeFazenda)
+        public void Update(string nomeFazenda, string endereco)
         {
-            ValidateDomain(nomeFazenda);
+            ValidateDomain(nomeFazenda,  endereco);
         }
 
-        private void ValidateDomain(string nomeFazenda)
+        private void ValidateDomain(string nomeFazenda, string endereco)
         {
             DomainExceptionValidation.When(string.IsNullOrEmpty(nomeFazenda),
                 "Nome invalido. Nome é obrigatorio.");
@@ -50,6 +50,7 @@ namespace GestAgropInter.Models
             DomainExceptionValidation.When(nomeFazenda.Length >50,
                "Nome invalido, muito longo, maximo de 50 caracteres");
             NomeFazenda = nomeFazenda;
+            Endereco = endereco;
         }
     }
 }

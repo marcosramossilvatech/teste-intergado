@@ -1,8 +1,15 @@
-﻿@model GestAgropInter.Models.Animal
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@model GestAgropInter.Models.Animal
 @{
     ViewData["Title"] = "Coletivo";
 }
 
+<style>
+#inputfile {
+  display: none;
+}
+
+</style>
 <div class="content-wrapper" style="min-height: 1302.4px;">
     <section class="content-header">
       <div class="container-fluid">
@@ -34,7 +41,7 @@
                                 <br>
                                 <div class="form-group">
                                     <select asp-for="Sexo" id="lstsexo" class="form-control form-control-lg">   
-                                   <option value="Fêmeas">Fêmeas</option>   
+                                   <option value="Fêmea">Fêmea</option>   
                                    <option value="Macho">Macho</option>  
                                     </select>
                                 </div>
@@ -47,11 +54,19 @@
                                                 }
                                     </select>
                                 </div>
-                                <div class="input-group input-group-sm" style="width: 100px;">
+                                <div class="input-group input-group-sm">
                                      <button class="btn btn-block btn-success btn-xs" id="Add">Adicionar</button>                        
                                 </div>
+                                <br/>
+                                 <form asp-controller="Coletivo" asp-action="ImportarArquivo" method="post" enctype="multipart/form-data">
+                                    <div class="input-group" >
+                                        <input type="file" id="file"  name="postedFile"  class="form-control form-control-lg" placeholder="Nenhum arquivo selecionado" style="width: 50%;">
+                                        <button type="submit" class="btn btn-block btn-success btn-xs" id="AddTodos" style="width: 50%;">Adicionar registros do arquivo</button>   
+                                    </div>
+                                 </form>
+
                                 <br>
-                                <div class="input-group input-group-sm" style="width: 100px;">
+                                <div class="input-group input-group-sm" >
                                      <button class="btn btn-block btn-success btn-xs" id="btnSalvar">Salvar</button>                        
                                 </div>
                             </div>                
@@ -223,6 +238,10 @@
             }
            
         });
+
+    function uploadFile(target) {
+        document.getElementById("file-name").value = target.files[0].name;
+    }
 
     </script>    
 

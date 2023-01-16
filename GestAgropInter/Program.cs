@@ -14,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>
 builder.Services.AddTransient<IFazendaRepository, FazendaRepository>();
 builder.Services.AddTransient<IAnimalRepository, AnimalRepository>();
 builder.Services.AddTransient<IHomeRepository, HomeRepository>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

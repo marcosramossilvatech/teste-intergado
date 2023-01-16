@@ -25,9 +25,11 @@ namespace GestAgropInter.Models
         public Animal()
         {
         }
-        public Animal(string tag)
+        public Animal(string tag, string sexo, int idfazenda)
         {
             ValidateDomain(tag);
+            Sexo = sexo;
+            FazendaID = idfazenda;
         }
 
         public Animal(int id, string tag, string sexo, int idfazenda ,Fazenda fazenda)
