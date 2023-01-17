@@ -1626,6 +1626,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Coletivo\" />
+    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4adminlte_4dist_4css_4alt_4adminlte_1components_1css_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
