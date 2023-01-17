@@ -5,6 +5,10 @@ using System.Data.OleDb;
 using System.Data;
 using System.Diagnostics;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.AspNetCore.Http;
+using System.Formats.Asn1;
+using System.Globalization;
+
 
 namespace GestAgropInter.Controllers
 {
@@ -15,13 +19,15 @@ namespace GestAgropInter.Controllers
         private IHostingEnvironment Environment;
         private IConfiguration Configuration;
         Animal ani = new Animal();
+        IWebHostEnvironment _appEnvironment;
 
-        public ColetivoController(IAnimalRepository animal, IFazendaRepository fazenda, IHostingEnvironment _environment, IConfiguration _configuration)
+        public ColetivoController(IAnimalRepository animal, IFazendaRepository fazenda, IHostingEnvironment _environment, IConfiguration _configuration, IWebHostEnvironment env)
         {
             _animal = animal;
             _fazenda = fazenda;
             Environment = _environment;
             Configuration = _configuration;
+            _appEnvironment = env;
         }
 
         public IActionResult Index()
@@ -42,7 +48,9 @@ namespace GestAgropInter.Controllers
         {
             if (postedFile != null)
             {
-                string path = Path.Combine(this.Environment.WebRootPath, "Uploads");
+
+
+                string path = Path.Combine(_appEnvironment.WebRootPath, "Uploads");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -55,34 +63,40 @@ namespace GestAgropInter.Controllers
                     postedFile.CopyTo(stream);
                 }
 
-                string conString = this.Configuration.GetConnectionString("ExcelConString");
+                string csvData = System.IO.File.ReadAllText(filePath);
                 DataTable dt = new DataTable();
-                conString = string.Format(conString, filePath);
-
-                using (OleDbConnection connExcel = new OleDbConnection(conString))
+                bool firstRow = true;
+                foreach (string row in csvData.Split('\n'))
                 {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
+                    if (!string.IsNullOrEmpty(row))
                     {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+                        if (!string.IsNullOrEmpty(row))
                         {
-                            cmdExcel.Connection = connExcel;
-                            connExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            connExcel.Close();
-                            connExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            connExcel.Close();
+                            if (firstRow)
+                            {
+                                foreach (string cell in row.Split(';'))
+                                {
+                                    dt.Columns.Add(cell.Trim());
+                                }
+                                firstRow = false;
+                            }
+                            else
+                            {
+                                dt.Rows.Add();
+                                int i = 0;
+                                foreach (string cell in row.Split(';'))
+                                {
+                                    dt.Rows[dt.Rows.Count - 1][i] = cell.Trim();
+                                    i++;
+                                }
+                            }
                         }
                     }
                 }
                 List<Animal> listaAnimais = new List<Animal>();
                 foreach (DataRow dataRow in dt.Rows)
                 {
-                    if(dataRow["Fazenda"].ToString() != "")
+                    if (dataRow["Fazenda"].ToString() != "")
                     {
                         Fazenda faze = _fazenda.GetFazenda(dataRow["Fazenda"].ToString());
                         if (faze == null)
@@ -90,7 +104,8 @@ namespace GestAgropInter.Controllers
                             faze = new Fazenda(dataRow["Fazenda"].ToString(), "Cadastrado pelo coletivo");
                             _fazenda.AddFazenda(faze);
                         }
-                        Animal animal = new Animal(dataRow["Tag"].ToString(), dataRow["Sexo"].ToString(), (int)faze.Id);
+                        string sexoAjustado = dataRow["Sexo"].ToString().StartsWith("F") ? "Fêmea" : dataRow["Sexo"].ToString();
+                        Animal animal = new Animal(dataRow["Tag"].ToString(), sexoAjustado, (int)faze.Id);
                         listaAnimais.Add(animal);
                     }
 
@@ -99,7 +114,6 @@ namespace GestAgropInter.Controllers
                 if (listaAnimais.Count() > 0)
                     _animal.AddAnimais(listaAnimais);
             }
-
             return RedirectToAction("Index","Animal");
         }
     }
