@@ -60,8 +60,6 @@ namespace GestAgropInter.Controllers
 
             if (ModelState.IsValid)
             {
-                if(_animal.GetAnimal(animal.Tag)!= null)
-                    return RedirectToAction("Index");
                 if (animal.Id != null)
                 {
                     animal.DataAlteracao = DateTime.Now;

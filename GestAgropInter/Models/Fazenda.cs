@@ -15,7 +15,7 @@ namespace GestAgropInter.Models
         [MaxLength(100)]
         public string NomeFazenda { get; set; }
 
-        [StringLength(20)]
+        [StringLength(100)]
         public string Endereco { get; set; }
 
         //public virtual IEnumerable<Animal>? Animais { get; set; }
